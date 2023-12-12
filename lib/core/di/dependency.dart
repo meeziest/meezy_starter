@@ -31,6 +31,7 @@ abstract base class Dependencies {
     if (_lazyDependencies.isNotEmpty && _lazyDependencies.containsKey(T)) {
       final dependency = _lazyDependencies[T]!.call();
       put(dependency);
+      return dependency;
     }
     throw DependencyError(
       'Dependency with name $T} type $T is not registered inside scope.',
