@@ -5,8 +5,8 @@ import 'package:meezy_starter/core/helpers/context_helpers/inherited_helper.dart
 
 import 'dependency.dart';
 
-class FeatureScope extends InheritedWidget {
-  const FeatureScope({
+class DependenciesScope extends InheritedWidget {
+  const DependenciesScope({
     required super.child,
     required this.dependencies,
     super.key,
@@ -15,7 +15,7 @@ class FeatureScope extends InheritedWidget {
   final Dependencies dependencies;
 
   static Dependencies of(BuildContext context) =>
-      context.inhOf<FeatureScope>(listen: false).dependencies;
+      context.inhOf<DependenciesScope>(listen: false).dependencies;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -26,5 +26,5 @@ class FeatureScope extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(FeatureScope oldWidget) => false;
+  bool updateShouldNotify(DependenciesScope oldWidget) => false;
 }

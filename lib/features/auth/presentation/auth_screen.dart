@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class AppScreen extends StatelessWidget {
-  const AppScreen({super.key, required this.title});
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({super.key, required this.title});
 
   final String title;
 
