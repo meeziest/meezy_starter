@@ -7,7 +7,16 @@ class AuthRouter {
         AutoRoute(
           path: '/auth',
           page: AuthScopeRoute.page,
-          children: [],
+          children: [
+            AutoRoute(
+              path: 'login',
+              page: LoginRoute.page,
+            ),
+            AutoRoute(
+              path: 'register',
+              page: RegisterRoute.page,
+            ),
+          ],
         ),
       ];
 }

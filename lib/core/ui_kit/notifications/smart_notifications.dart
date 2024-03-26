@@ -9,7 +9,7 @@ class SmartDialogs {
   const SmartDialogs._();
 
   static Future<void> showNotify({
-    AlignmentGeometry alignment = Alignment.topCenter,
+    Alignment alignment = Alignment.topCenter,
     String? title,
     String? subTitle,
     IconBuilder? iconBuilder,
@@ -26,18 +26,13 @@ class SmartDialogs {
       maskColor: Colors.transparent,
       animationTime: const Duration(milliseconds: 450),
       alignment: alignment,
-      animationBuilder: (
-        AnimationController controller,
-        Widget child,
-        AnimationParam animationParam,
-      ) {
-        return SlideBounceAnimation(
-          controller: controller,
-          alignment: animationParam.alignment,
-          child: child,
-        );
-      },
       onDismiss: () => onClose?.call(),
+      animationBuilder: (controller, child, animationParam) =>
+          SlideBounceAnimation(
+        controller: controller,
+        alignment: animationParam.alignment,
+        child: child,
+      ),
       builder: (_) => SafeArea(
         child: SizedBox(),
       ),
