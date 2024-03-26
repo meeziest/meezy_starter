@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meezy_starter/features/app/presentation/bloc/app_bloc.dart';
-import 'package:provider/provider.dart';
 
 import 'domain/repositories/app_repository.dart';
 
@@ -12,23 +11,21 @@ class AppScope extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiRepositoryProvider(
       providers: [
         /// repositories
-        Provider(create: (context) => AppRepository1()),
-        Provider(create: (context) => AppRepository2()),
-        Provider(create: (context) => AppRepository3()),
-
-        /// bloc
-        BlocProvider(
-          create: (context) => AppBloc(
-            context.read(),
-            context.read(),
-            context.read(),
-          ),
-        ),
+        RepositoryProvider(create: (context) => AppRepository1()),
+        RepositoryProvider(create: (context) => AppRepository2()),
+        RepositoryProvider(create: (context) => AppRepository3()),
       ],
-      child: child,
+      child: BlocProvider(
+        create: (context) => AppBloc(
+          context.read(),
+          context.read(),
+          context.read(),
+        ),
+        child: child,
+      ),
     );
   }
 }
