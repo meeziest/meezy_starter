@@ -2,9 +2,7 @@
 
 import 'package:meta/meta.dart';
 
-/// {@template rest_client_exception}
 /// Base class for all rest client exceptions
-/// {@endtemplate}
 @immutable
 abstract base class RestClientException implements Exception {
   /// Message of the exception
@@ -17,9 +15,7 @@ abstract base class RestClientException implements Exception {
   const RestClientException({required this.message, this.statusCode});
 }
 
-/// {@template rest_client_exception_with_cause}
 /// Base class for all rest client exceptions that have a cause
-/// {@endtemplate}
 abstract base class RestClientExceptionWithCause extends RestClientException {
   /// {@macro rest_client_exception_with_cause}
   const RestClientExceptionWithCause({
@@ -34,9 +30,7 @@ abstract base class RestClientExceptionWithCause extends RestClientException {
   final Object? cause;
 }
 
-/// {@template client_exception}
 /// [ClientException] is thrown if something went wrong on client side
-/// {@endtemplate}
 final class ClientException extends RestClientException {
   /// {@macro client_exception}
   const ClientException({
@@ -58,9 +52,7 @@ final class ClientException extends RestClientException {
       ')';
 }
 
-/// {@template custom_backend_exception}
 /// [CustomBackendException] is thrown if the backend returns an error
-/// {@endtemplate}
 final class CustomBackendException extends RestClientException {
   /// {@macro custom_backend_exception}
   const CustomBackendException({
@@ -80,10 +72,8 @@ final class CustomBackendException extends RestClientException {
       ')';
 }
 
-/// {@template wrong_response_type_exception}
 /// [WrongResponseTypeException] is thrown if the response type
 /// is not the expected one
-/// {@endtemplate}
 final class WrongResponseTypeException extends RestClientException {
   /// {@macro wrong_response_type_exception}
   const WrongResponseTypeException({
@@ -98,9 +88,7 @@ final class WrongResponseTypeException extends RestClientException {
       ')';
 }
 
-/// {@template connection_exception}
 /// [ConnectionException] is thrown if there are problems with the connection
-/// {@endtemplate}
 final class ConnectionException extends RestClientExceptionWithCause {
   /// {@macro connection_exception}
   const ConnectionException({
@@ -117,9 +105,7 @@ final class ConnectionException extends RestClientExceptionWithCause {
       ')';
 }
 
-/// {@template internal_server_exception}
 /// If something went wrong on the server side
-/// {@endtemplate}
 final class InternalServerException extends RestClientExceptionWithCause {
   /// {@macro internal_server_exception}
   const InternalServerException({

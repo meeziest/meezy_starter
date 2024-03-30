@@ -10,10 +10,10 @@ abstract interface class LocaleRepository {
   Locale? loadLocale();
 }
 
-final class LocaleDataRepository implements LocaleRepository {
+final class LocaleRepositoryImpl implements LocaleRepository {
   final LocaleDataSource _localeDataSource;
 
-  const LocaleDataRepository(this._localeDataSource);
+  const LocaleRepositoryImpl(this._localeDataSource);
 
   @override
   Future<void> setLocale(Locale locale) => _localeDataSource.setLocale(locale);

@@ -12,12 +12,12 @@ abstract interface class LocaleDataSource {
   Locale? loadLocaleFromCache();
 }
 
-final class LocaleLocalDataSource implements LocaleDataSource {
+final class LocaleDataSourceSP implements LocaleDataSource {
   final SharedPreferences _sharedPreferences;
 
-  const LocaleLocalDataSource({
-    required SharedPreferences sharedPreferences,
-  }) : _sharedPreferences = sharedPreferences;
+  const LocaleDataSourceSP(
+    SharedPreferences sharedPreferences,
+  ) : _sharedPreferences = sharedPreferences;
 
   static const _prefix = 'locale';
 

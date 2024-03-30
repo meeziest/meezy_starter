@@ -13,10 +13,9 @@ abstract interface class ThemeDataSource {
 }
 
 /// {@macro theme_datasource}
-final class ThemeDataSourceImpl extends PreferencesDao
-    implements ThemeDataSource {
+final class ThemeDataSourceSP extends PreferencesDao implements ThemeDataSource {
   /// {@macro theme_datasource}
-  ThemeDataSourceImpl(super._sharedPreferences);
+  ThemeDataSourceSP(super._sharedPreferences);
 
   PreferencesEntry<int> get _seedColor => intEntry('theme.seed_color');
 
