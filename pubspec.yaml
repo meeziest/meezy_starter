@@ -30,6 +30,7 @@ dependencies:
 
   # Networking
   dio: 5.3.3
+  dart_jsonwebtoken: ^2.13.0
 
   # Persisting
   shared_preferences: 2.2.2
