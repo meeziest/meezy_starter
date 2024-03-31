@@ -1,3 +1,4 @@
+import 'package:meezy_starter/core/client/rest_client_base.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/app/presentation/bloc/settings_bloc.dart';
@@ -12,6 +13,8 @@ base class CoreDependencies {
     required this.sharedPreferences,
     required this.settingsBloc,
     required this.errorTrackingManager,
+    required this.authClient,
+    required this.client,
   });
 
   /// [SharedPreferences] instance, used to store Key-Value pairs.
@@ -22,6 +25,12 @@ base class CoreDependencies {
 
   /// [ErrorTrackingManager] instance, used to report errors.
   final ErrorTrackingManager errorTrackingManager;
+
+  /// [RestClient] instance, used to handle auth apis.
+  final RestClient authClient;
+
+  /// [RestClient] instance, used to handle apis.
+  final RestClient client;
 }
 
 /// {@template initialization_result}
@@ -30,19 +39,19 @@ base class CoreDependencies {
 final class InitializationResult {
   /// {@macro initialization_result}
   const InitializationResult({
-    required this.dependencies,
+    required this.coreDependencies,
     required this.msSpent,
   });
 
   /// The dependencies
-  final CoreDependencies dependencies;
+  final CoreDependencies coreDependencies;
 
   /// The number of milliseconds spent
   final int msSpent;
 
   @override
   String toString() => '$InitializationResult('
-      'dependencies: $dependencies, '
+      'dependencies: $coreDependencies, '
       'msSpent: $msSpent'
       ')';
 }

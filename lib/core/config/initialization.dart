@@ -1,3 +1,4 @@
+import 'package:meezy_starter/core/client/rest_client_factory.dart';
 import 'package:meezy_starter/core/config/core_dependencies.dart';
 import 'package:meezy_starter/core/theme/data/data_source/theme_local_data_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +23,19 @@ final class InitializationProcessor {
     final errorTrackingManager = await _initErrorTrackingManager();
     final settingsBloc = await _initSettingsBloc(sharedPreferences);
 
+    final regularClient = await RestClientFactory.create(
+      RestClientFactorySettings(baseUrl, RestClientType.regular),
+      sharedPreferences,
+    );
+
+    final authClient = await RestClientFactory.create(
+      RestClientFactorySettings(baseUrl, RestClientType.auth),
+      sharedPreferences,
+    );
+
     return CoreDependencies(
+      client: regularClient,
+      authClient: authClient,
       sharedPreferences: sharedPreferences,
       settingsBloc: settingsBloc,
       errorTrackingManager: errorTrackingManager,
@@ -76,7 +89,7 @@ final class InitializationProcessor {
 
     stopwatch.stop();
     final result = InitializationResult(
-      dependencies: dependencies,
+      coreDependencies: dependencies,
       msSpent: stopwatch.elapsedMilliseconds,
     );
     return result;
