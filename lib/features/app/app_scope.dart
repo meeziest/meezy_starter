@@ -16,15 +16,15 @@ class AppScope extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider(create: (context) => AppRepository2()),
-
         /// repositories
         Provider(create: (context) => AppRepository1()),
         Provider(create: (context) => AppRepository2()),
         Provider(create: (context) => AppRepository3()),
 
         /// bloc
-        BlocProvider(create: (context) => coreDependencies.settingsBloc),
+        BlocProvider(
+          create: coreDependencies.settingsBlocBuilder,
+        ),
         BlocProvider(
           create: (context) => AppBloc(
             context.read(),

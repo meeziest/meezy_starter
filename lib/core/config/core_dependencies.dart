@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:meezy_starter/core/client/rest_client_base.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +12,7 @@ base class CoreDependencies {
   /// {@macro dependencies}
   const CoreDependencies({
     required this.sharedPreferences,
-    required this.settingsBloc,
+    required this.settingsBlocBuilder,
     required this.errorTrackingManager,
     required this.authClient,
     required this.client,
@@ -21,7 +22,7 @@ base class CoreDependencies {
   final SharedPreferences sharedPreferences;
 
   /// [SettingsBloc] instance, used to manage theme and locale.
-  final SettingsBloc settingsBloc;
+  final SettingsBloc Function(BuildContext context) settingsBlocBuilder;
 
   /// [ErrorTrackingManager] instance, used to report errors.
   final ErrorTrackingManager errorTrackingManager;

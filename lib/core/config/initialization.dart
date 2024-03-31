@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:meezy_starter/core/client/rest_client_factory.dart';
 import 'package:meezy_starter/core/config/core_dependencies.dart';
 import 'package:meezy_starter/core/theme/data/data_source/theme_local_data_source.dart';
@@ -21,7 +22,7 @@ final class InitializationProcessor {
   Future<CoreDependencies> _initDependencies() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final errorTrackingManager = await _initErrorTrackingManager();
-    final settingsBloc = await _initSettingsBloc(sharedPreferences);
+    final settingsBlocBuilder = await _initSettingsBloc(sharedPreferences);
 
     final regularClient = await RestClientFactory.create(
       RestClientFactorySettings(baseUrl, RestClientType.regular),
@@ -37,7 +38,7 @@ final class InitializationProcessor {
       client: regularClient,
       authClient: authClient,
       sharedPreferences: sharedPreferences,
-      settingsBloc: settingsBloc,
+      settingsBlocBuilder: settingsBlocBuilder,
       errorTrackingManager: errorTrackingManager,
     );
   }
@@ -56,7 +57,7 @@ final class InitializationProcessor {
     return errorTrackingManager;
   }
 
-  Future<SettingsBloc> _initSettingsBloc(SharedPreferences prefs) async {
+  Future<SettingsBloc Function(BuildContext context)> _initSettingsBloc(SharedPreferences prefs) async {
     final localeRepository = LocaleRepositoryImpl(LocaleDataSourceSP(prefs));
 
     final themeRepository = ThemeRepositoryImpl(ThemeDataSourceSP(prefs));
@@ -67,12 +68,11 @@ final class InitializationProcessor {
 
     final initialState = SettingsState.idle(appTheme: theme, locale: locale);
 
-    final settingsBloc = SettingsBloc(
-      localeRepository: localeRepository,
-      themeRepository: themeRepository,
-      initialState: initialState,
-    );
-    return settingsBloc;
+    return (context) => SettingsBloc(
+          localeRepository: localeRepository,
+          themeRepository: themeRepository,
+          initialState: initialState,
+        );
   }
 
   /// Initializes dependencies and returns the result of the initialization.

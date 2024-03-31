@@ -33,11 +33,9 @@ final class AppRunner {
     Future<void> initializeAndRun() async {
       try {
         final result = await initializationProcessor.initialize();
-        // Attach this widget to the root of the tree.
         runApp(MeezyApp(result: result));
       } catch (e, stackTrace) {
         logger.error('Initialization failed', error: e, stackTrace: stackTrace);
-        // error screen
         runApp(
           InitializationFailedApp(
             error: e,
@@ -46,12 +44,10 @@ final class AppRunner {
           ),
         );
       } finally {
-        // Allow rendering
         binding.allowFirstFrame();
       }
     }
 
-    // Run the app
     await initializeAndRun();
   }
 }
