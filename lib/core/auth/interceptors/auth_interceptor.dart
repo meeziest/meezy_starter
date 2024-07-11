@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
-import 'package:rxdart/subjects.dart';
 
 import '../../logger/logger.dart';
 import '../exceptions/auth_exceptions.dart';
@@ -39,7 +38,7 @@ abstract interface class AuthStatusDataSource {
 ///
 /// This interceptor adds the Auth token to the request header
 /// and clears the token if the request fails with a 401
-class AuthInterceptor<T> extends QueuedInterceptor implements AuthStatusDataSource {
+class AuthInterceptor<T> extends QueuedInterceptor {
   /// Create an Auth interceptor
   AuthInterceptor({
     required this.storage,
@@ -47,12 +46,9 @@ class AuthInterceptor<T> extends QueuedInterceptor implements AuthStatusDataSour
     required this.buildHeaders,
     @visibleForTesting Dio? retryClient,
   }) : retryClient = retryClient ?? Dio() {
-    _storageSubscription = storage.getStream().listen(
-          _updateAuthenticationStatus,
-        );
-
-    // Preload the token pair
-    getTokenPair().then(_updateAuthenticationStatus).ignore();
+    _storageSubscription = storage.stream.listen(
+      (token) => _token = token,
+    );
   }
 
   /// [Dio] client used to retry the request.
@@ -78,12 +74,6 @@ class AuthInterceptor<T> extends QueuedInterceptor implements AuthStatusDataSour
   /// The current token model
   T? _token;
 
-  /// The current authentication status
-  var _authenticationStatus = AuthenticationStatus.initial;
-
-  /// The authentication status controller
-  final _authController = BehaviorSubject.seeded(AuthenticationStatus.initial);
-
   /// Get the token pair
   ///
   /// Returns the cached token pair if it exists,
@@ -97,9 +87,6 @@ class AuthInterceptor<T> extends QueuedInterceptor implements AuthStatusDataSour
       () async => _token = await storage.load(),
     );
   }
-
-  @override
-  Stream<AuthenticationStatus> getAuthenticationStatusStream() => _authController.stream;
 
   /// Clear the token pair
   /// Invalidates cache and clears storage
@@ -174,7 +161,6 @@ class AuthInterceptor<T> extends QueuedInterceptor implements AuthStatusDataSour
   /// Close the interceptor
   Future<void> close() async {
     await _storageSubscription?.cancel();
-    await _authController.close();
   }
   // coverage:ignore-end
 
@@ -189,21 +175,6 @@ class AuthInterceptor<T> extends QueuedInterceptor implements AuthStatusDataSour
   @visibleForTesting
   @pragma('vm:prefer-inline')
   bool shouldRefresh<R>(Response<R> response) => response.statusCode == 401;
-
-  /// Update the authentication status based on the token pair
-  void _updateAuthenticationStatus(T? token) {
-    final oldStatus = _authenticationStatus;
-    if (token == null) {
-      _authenticationStatus = AuthenticationStatus.unauthenticated;
-    } else {
-      _authenticationStatus = AuthenticationStatus.authenticated;
-    }
-
-    _token = token;
-    if (oldStatus != _authenticationStatus) {
-      _authController.add(_authenticationStatus);
-    }
-  }
 
   Future<Response<R>> _refresh<R>(Response<R> response, T token) async {
     final T newTokenPair;

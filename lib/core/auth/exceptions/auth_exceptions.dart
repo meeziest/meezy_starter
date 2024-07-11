@@ -1,5 +1,8 @@
+import '../../client/exceptions/failure.dart';
+
 /// Throw this exception when refresh token fails
-class RevokeTokenException implements Exception {
+class RevokeTokenException implements Failure {
+  @override
   final String message;
 
   /// Create a [RevokeTokenException]

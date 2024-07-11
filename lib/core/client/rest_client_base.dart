@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:meta/meta.dart';
-import 'package:path/path.dart' as p;
 
 import 'exceptions/network_exceptions.dart';
 
@@ -49,7 +48,7 @@ abstract class RestClient {
 
 @immutable
 abstract base class RestClientBase implements RestClient {
-  RestClientBase({required String baseUrl}) : baseUri = Uri.parse(baseUrl);
+  RestClientBase({required String baseUrl}) : baseUri = Uri.parse(baseUrl).replace();
 
   /// The base url for the client
   final Uri baseUri;
@@ -74,7 +73,7 @@ abstract base class RestClientBase implements RestClient {
   @protected
   @visibleForTesting
   Uri buildUri({required String path, Map<String, Object?>? queryParams}) {
-    final finalPath = p.canonicalize(p.join(baseUri.path, path));
+    final finalPath = [baseUri.path, path].join();
     return baseUri.replace(
       path: finalPath,
       queryParameters: {
@@ -123,6 +122,14 @@ abstract base class RestClientBase implements RestClient {
         throw CustomBackendException(
           message: 'Backend returned custom error',
           error: error,
+          statusCode: statusCode,
+        );
+      }
+
+      if (result.containsKey('httpStatusCode') && result.containsKey('message')) {
+        throw CustomBackendException(
+          message: result['message']! as String,
+          error: result,
           statusCode: statusCode,
         );
       }

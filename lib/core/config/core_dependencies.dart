@@ -1,28 +1,28 @@
 import 'package:flutter/cupertino.dart';
-import 'package:meezy_starter/core/client/rest_client_base.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../features/app/presentation/bloc/settings_bloc.dart';
+import '../../features/app/bloc/app_bloc.dart';
+import '../auth/dto/token.dart';
+import '../auth/token_local.dart';
+import '../client/rest_client_base.dart';
 import '../tracker/error_tracker.dart';
 
-/// {@template dependencies}
 /// Dependencies container
-/// {@endtemplate}
 base class CoreDependencies {
-  /// {@macro dependencies}
   const CoreDependencies({
     required this.sharedPreferences,
-    required this.settingsBlocBuilder,
+    required this.appBlocCreator,
     required this.errorTrackingManager,
     required this.authClient,
+    required this.tokenStorage,
     required this.client,
   });
 
   /// [SharedPreferences] instance, used to store Key-Value pairs.
   final SharedPreferences sharedPreferences;
 
-  /// [SettingsBloc] instance, used to manage theme and locale.
-  final SettingsBloc Function(BuildContext context) settingsBlocBuilder;
+  /// [AppBloc] instance, used to manage theme and locale.
+  final AppBloc Function(BuildContext context) appBlocCreator;
 
   /// [ErrorTrackingManager] instance, used to report errors.
   final ErrorTrackingManager errorTrackingManager;
@@ -32,11 +32,29 @@ base class CoreDependencies {
 
   /// [RestClient] instance, used to handle apis.
   final RestClient client;
+
+  /// [SharedPreferences] instance, used to store Key-Value pairs.
+  final TokenStorage<Token> tokenStorage;
 }
 
-/// {@template initialization_result}
+final class AppDependencies {
+  const AppDependencies({
+    required this.sharedPreferences,
+    required this.authClient,
+    required this.client,
+  });
+
+  /// [SharedPreferences] instance, used to store Key-Value pairs.
+  final SharedPreferences sharedPreferences;
+
+  /// [RestClient] instance, used to handle auth apis.
+  final RestClient authClient;
+
+  /// [RestClient] instance, used to handle apis.
+  final RestClient client;
+}
+
 /// Result of initialization
-/// {@endtemplate}
 final class InitializationResult {
   /// {@macro initialization_result}
   const InitializationResult({

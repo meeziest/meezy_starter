@@ -1,16 +1,20 @@
-import 'package:flutter/cupertino.dart';
-import 'package:meezy_starter/core/client/rest_client_factory.dart';
-import 'package:meezy_starter/core/config/core_dependencies.dart';
-import 'package:meezy_starter/core/theme/data/data_source/theme_local_data_source.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../features/app/presentation/bloc/settings_bloc.dart';
-import '../locale/data/data_source/locale_local_data_source.dart';
-import '../locale/data/repository/locale_repository.dart';
+import '../../features/app/bloc/app_bloc.dart';
+import '../../features/app/data/locale/data_source/locale_local_data_source.dart';
+import '../../features/app/data/locale/repository/locale_repository.dart';
+import '../../features/app/data/theme/data_source/theme_local_data_source.dart';
+import '../../features/app/data/theme/repository/theme_repository.dart';
+import '../auth/token_local.dart';
+import '../client/rest_client_factory.dart';
 import '../logger/logger.dart';
-import '../theme/data/repository/theme_repository.dart';
 import '../tracker/error_tracker.dart';
+import '../ui_kit/src/theme/app_theme.dart';
+import 'core_dependencies.dart';
 import 'enviroment.dart';
+
+const baseUrl = 'http://45.32.8.88:8085/v1/';
 
 /// A class which is responsible for processing initialization steps.
 final class InitializationProcessor {
@@ -22,23 +26,25 @@ final class InitializationProcessor {
   Future<CoreDependencies> _initDependencies() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final errorTrackingManager = await _initErrorTrackingManager();
-    final settingsBlocBuilder = await _initSettingsBloc(sharedPreferences);
+    final appBlocBuilder = await _prepareAppBloc(sharedPreferences);
+    final tokenStorage = TokenStorageSP(sharedPreferences: sharedPreferences);
 
     final regularClient = await RestClientFactory.create(
-      RestClientFactorySettings(baseUrl, RestClientType.regular),
-      sharedPreferences,
+      settings: RestClientFactorySettings(baseUrl, RestClientType.regular),
+      tokenStorage: tokenStorage,
     );
 
     final authClient = await RestClientFactory.create(
-      RestClientFactorySettings(baseUrl, RestClientType.auth),
-      sharedPreferences,
+      settings: RestClientFactorySettings(baseUrl, RestClientType.auth),
+      tokenStorage: tokenStorage,
     );
 
     return CoreDependencies(
       client: regularClient,
       authClient: authClient,
+      tokenStorage: tokenStorage,
       sharedPreferences: sharedPreferences,
-      settingsBlocBuilder: settingsBlocBuilder,
+      appBlocCreator: appBlocBuilder,
       errorTrackingManager: errorTrackingManager,
     );
   }
@@ -57,18 +63,17 @@ final class InitializationProcessor {
     return errorTrackingManager;
   }
 
-  Future<SettingsBloc Function(BuildContext context)> _initSettingsBloc(SharedPreferences prefs) async {
+  Future<AppBloc Function(BuildContext context)> _prepareAppBloc(SharedPreferences prefs) async {
     final localeRepository = LocaleRepositoryImpl(LocaleDataSourceSP(prefs));
-
     final themeRepository = ThemeRepositoryImpl(ThemeDataSourceSP(prefs));
 
     final localeFuture = localeRepository.loadLocale();
-    final theme = await themeRepository.loadTheme();
-    final locale = await localeFuture;
+    final theme = themeRepository.loadTheme() ?? AppTheme(mode: ThemeMode.dark);
+    final locale = localeFuture;
 
-    final initialState = SettingsState.idle(appTheme: theme, locale: locale);
+    final initialState = AppState.idle(appTheme: theme, locale: locale);
 
-    return (context) => SettingsBloc(
+    return (context) => AppBloc(
           localeRepository: localeRepository,
           themeRepository: themeRepository,
           initialState: initialState,

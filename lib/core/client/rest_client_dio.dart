@@ -39,7 +39,14 @@ final class RestClientDio extends RestClientBase {
         statusCode: response.statusCode,
       );
 
-      return resp;
+      final accessToken = response.headers.value('jwt-access-token');
+      final refreshToken = response.headers.value('jwt-refresh-token');
+
+      return resp ??
+          {
+            'jwt-access-token': accessToken,
+            'jwt-refresh-token': refreshToken,
+          };
     } on RestClientException {
       rethrow;
     } on DioException catch (e) {

@@ -2,10 +2,13 @@
 
 import 'package:meta/meta.dart';
 
+import 'failure.dart';
+
 /// Base class for all rest client exceptions
 @immutable
-abstract base class RestClientException implements Exception {
+abstract base class RestClientException implements Failure {
   /// Message of the exception
+  @override
   final String message;
 
   /// The status code of the response (if any)

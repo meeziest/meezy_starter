@@ -3,20 +3,23 @@ import 'dart:async';
 import 'package:bloc_concurrency/bloc_concurrency.dart' as concurrency;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meezy_starter/core/helpers/when_helpers/when.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../helpers/streams_helper/stream_subs_cancel.dart';
 
 typedef ContextActivityHandler = void Function(BuildContext context);
 
-abstract class BaseBloc<E, S> extends Bloc<E, S>
-    with CancelableStreamSubscriptions {
+/// Set the state of the bloc
+mixin SetStateMixin<S> on Emittable<S> {
+  /// Change the state of the bloc
+  void setState(S state) => emit(state);
+}
+
+abstract class BaseBloc<E, S> extends Bloc<E, S> with CancelableStreamSubscriptions {
   late final BehaviorSubject<ContextActivityHandler> _subject;
   Stream<ContextActivityHandler> get contextHandler => _subject.stream;
 
   Emitter<S>? _emit;
-  EventTransformerType blocConcurrency = EventTransformerType.sequential;
 
   BaseBloc(super.initialState) {
     _subject = BehaviorSubject<ContextActivityHandler>();
@@ -26,22 +29,13 @@ abstract class BaseBloc<E, S> extends Bloc<E, S>
         await onEventHandler(event, emit);
         _emit = null;
       },
-      transformer: _eventTransformer,
+      transformer: eventTransformer,
     );
   }
 
-  EventTransformer<E> get _eventTransformer {
-    return blocConcurrency.when(
-      {
-        EventTransformerType.sequential: () => concurrency.sequential(),
-        EventTransformerType.concurrent: () => concurrency.concurrent(),
-        EventTransformerType.restartable: () => concurrency.restartable(),
-      },
-      () => concurrency.droppable(),
-    );
-  }
+  EventTransformer<E> get eventTransformer => concurrency.sequential();
 
-  FutureOr<void> onEventHandler(E event, Emitter<S> emit) async {}
+  Future<void> onEventHandler(E event, Emitter<S> emit) async {}
 
   /// provides context within BaseBlocWidget
   Future<T> handleWithContext<T>(
@@ -56,11 +50,6 @@ abstract class BaseBloc<E, S> extends Bloc<E, S>
   }
 
   void updateState([S? newState]) {
-    assert(
-      blocConcurrency != EventTransformerType.concurrent,
-      "updateState([S? newState]) doesn't work with concurrent events "
-      'instead use emit directly from onEventHandler',
-    );
     assert(
       _emit != null,
       'updateState([S? newState]) -> the emit function is being called after the current event has finished processing. '
@@ -84,11 +73,4 @@ abstract class BaseBloc<E, S> extends Bloc<E, S>
     _subject.close();
     return super.close();
   }
-}
-
-enum EventTransformerType {
-  droppable,
-  sequential,
-  concurrent,
-  restartable,
 }

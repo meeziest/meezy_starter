@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/helpers/preferences_helper/preferences_dao.dart';
@@ -13,25 +14,31 @@ abstract interface class TokenStorage<T> {
 
   Future<void> clear();
 
-  Stream<T?> getStream();
+  Stream<T?> get stream;
 
   Future<void> close();
 }
 
 final class TokenStorageSP implements TokenStorage<Token> {
-  TokenStorageSP({required SharedPreferences sharedPreferences})
-      : _accessToken = TypedEntry(
-          sharedPreferences: sharedPreferences,
-          key: 'authorization.access_token',
-        ),
-        _refreshToken = TypedEntry(
-          sharedPreferences: sharedPreferences,
-          key: 'authorization.refresh_token',
-        );
+  TokenStorageSP({required SharedPreferences sharedPreferences}) {
+    _accessToken = TypedEntry(
+      sharedPreferences: sharedPreferences,
+      key: 'authorization.access_token',
+    );
+    _refreshToken = TypedEntry(
+      sharedPreferences: sharedPreferences,
+      key: 'authorization.refresh_token',
+    );
+    load().then((token) => _subject.add(token));
+  }
 
   late final PreferencesEntry<String> _accessToken;
   late final PreferencesEntry<String> _refreshToken;
-  final _streamController = StreamController<Token?>.broadcast();
+
+  final _subject = BehaviorSubject<Token?>.seeded(null);
+
+  @override
+  Stream<Token?> get stream => _subject.stream;
 
   @override
   Future<Token?> load() async {
@@ -49,43 +56,42 @@ final class TokenStorageSP implements TokenStorage<Token> {
   Future<void> save(Token tokenPair) async {
     await (
       _accessToken.set(tokenPair.accessToken),
-      _refreshToken.set(tokenPair.refreshToken)
+      _refreshToken.set(tokenPair.refreshToken),
     ).wait;
 
-    _streamController.add(tokenPair);
+    _subject.add(tokenPair);
   }
 
   @override
   Future<void> clear() async {
     await (_accessToken.remove(), _refreshToken.remove()).wait;
-    _streamController.add(null);
+    _subject.add(null);
   }
 
   @override
-  Stream<Token?> getStream() => _streamController.stream;
-
-  @override
-  Future<void> close() => _streamController.close();
+  Future<void> close() => _subject.close();
 }
 
 final class TypedEntry extends PreferencesEntry<String> {
   final SharedPreferences sharedPreferences;
+
+  @override
   final String key;
 
   TypedEntry({required this.sharedPreferences, required this.key});
 
   @override
   String? read() {
-    throw UnimplementedError();
+    return sharedPreferences.getString(key);
   }
 
   @override
   Future<void> remove() {
-    throw UnimplementedError();
+    return sharedPreferences.remove(key);
   }
 
   @override
   Future<void> set(String value) {
-    throw UnimplementedError();
+    return sharedPreferences.setString(key, value);
   }
 }

@@ -25,7 +25,7 @@ class BaseBlocWidget<B extends BaseBloc<E, S>, E, S> extends StatelessWidget {
   const BaseBlocWidget({
     super.key,
     required B Function(BuildContext context) create,
-    required BaseBlocWidgetBuilder<B, S>? builder,
+    BaseBlocWidgetBuilder<B, S>? builder,
     this.starterEvent,
     this.listener,
     this.buildWhen,
@@ -37,9 +37,9 @@ class BaseBlocWidget<B extends BaseBloc<E, S>, E, S> extends StatelessWidget {
         type = BaseBloWidgetType.consume;
 
   const BaseBlocWidget.value({
-    super.key,
     required B bloc,
-    required BaseBlocWidgetBuilder<B, S>? builder,
+    super.key,
+    BaseBlocWidgetBuilder<B, S>? builder,
     this.starterEvent,
     this.listener,
     this.buildWhen,
@@ -118,9 +118,9 @@ class BaseBlocWidget<B extends BaseBloc<E, S>, E, S> extends StatelessWidget {
 
 class BaseBlocWrapper<B extends BaseBloc<E, S>, E, S> extends StatefulWidget {
   const BaseBlocWrapper({
+    required this.builder,
     super.key,
     this.bloc,
-    required this.builder,
     this.listener,
     this.buildWhen,
     this.listenWhen,
@@ -128,9 +128,9 @@ class BaseBlocWrapper<B extends BaseBloc<E, S>, E, S> extends StatefulWidget {
         type = BaseBloWidgetType.consume;
 
   const BaseBlocWrapper.listen({
+    required this.child,
     super.key,
     this.bloc,
-    required this.child,
     this.listener,
     this.listenWhen,
   })  : builder = null,
@@ -146,19 +146,14 @@ class BaseBlocWrapper<B extends BaseBloc<E, S>, E, S> extends StatefulWidget {
   final BaseBloWidgetType type;
 
   @override
-  State<BaseBlocWrapper<B, E, S>> createState() =>
-      _BaseBlocWrapperState<B, E, S>();
+  State<BaseBlocWrapper<B, E, S>> createState() => _BaseBlocWrapperState<B, E, S>();
 }
 
-class _BaseBlocWrapperState<B extends BaseBloc<E, S>, E, S>
-    extends State<BaseBlocWrapper<B, E, S>> with CancelableStreamSubscriptions {
+class _BaseBlocWrapperState<B extends BaseBloc<E, S>, E, S> extends State<BaseBlocWrapper<B, E, S>>
+    with CancelableStreamSubscriptions {
   @override
   void didChangeDependencies() {
-    context
-        .read<B>()
-        .contextHandler
-        .listen((handler) => handler(context))
-        .cancelableBy(this);
+    context.read<B>().contextHandler.listen((handler) => handler(context)).cancelableBy(this);
     super.didChangeDependencies();
   }
 

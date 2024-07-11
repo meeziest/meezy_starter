@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class SlideBounceAnimation extends StatefulWidget {
   const SlideBounceAnimation({
-    super.key,
     required this.alignment,
     required this.controller,
     required this.child,
+    super.key,
   });
 
   final AlignmentGeometry alignment;
@@ -16,15 +16,13 @@ class SlideBounceAnimation extends StatefulWidget {
   State<SlideBounceAnimation> createState() => _SlideBounceAnimationState();
 }
 
-class _SlideBounceAnimationState extends State<SlideBounceAnimation>
-    with TickerProviderStateMixin {
+class _SlideBounceAnimationState extends State<SlideBounceAnimation> with TickerProviderStateMixin {
   late Tween<Offset> _tween;
   late CurvedAnimation _animation;
 
   @override
   void initState() {
-    _animation =
-        CurvedAnimation(parent: widget.controller, curve: Curves.easeInOutBack);
+    _animation = CurvedAnimation(parent: widget.controller, curve: Curves.easeInOutBack);
     _dealContentAnimate();
     super.initState();
   }

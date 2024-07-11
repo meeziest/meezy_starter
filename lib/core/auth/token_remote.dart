@@ -50,7 +50,7 @@ final class JWTAuthorizationClient implements AuthorizationClient<Token> {
   @override
   Future<Token> refresh(Token token) async {
     final responseJson = await _client.post(
-      '/refresh',
+      '/auth/refresh-token',
       headers: {'Authorization': 'Bearer ${token.accessToken}'},
       body: {},
     );

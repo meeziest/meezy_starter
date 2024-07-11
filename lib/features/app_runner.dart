@@ -1,13 +1,13 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart' as bloc_concurrency;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meezy_starter/core/logger/logger.dart';
 
 import '../core/bloc_base/observers/app_bloc_observer.dart';
 import '../core/config/enviroment.dart';
 import '../core/config/initialization.dart';
-import '../core/logger/logger.dart';
 import 'app/meezy_app.dart';
-import 'app/presentation/screens/failed_screen.dart';
+import 'app/view/screens/failed_screen.dart';
 
 /// A class which is responsible for initialization and running the app.
 final class AppRunner {

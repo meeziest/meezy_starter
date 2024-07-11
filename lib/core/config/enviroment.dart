@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-final baseUrl = 'tyndame.kz.test';
-
 /// Application configuration
 class Config {
   /// Creates a new [Config] instance.
