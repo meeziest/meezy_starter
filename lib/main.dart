@@ -7,6 +7,5 @@ void main() {
   Future<void> runCallback() => const AppRunner().initializeAndRun();
   logger.runLogging(
     () => runZonedGuarded(runCallback, logger.logZoneError),
-    const LogOptions(),
   );
 }
