@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:meezy_starter/core/logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-
-import '../logger/logger.dart';
 
 /// A class which is responsible for enabling error tracking.
 abstract interface class ErrorTrackingManager {
@@ -29,7 +28,8 @@ abstract base class ErrorTrackingManagerBase implements ErrorTrackingManager {
   /// Catch only warnings and errors
   Stream<LogMessage> get _reportLogs => _logger.logs.where(_isWarningOrError);
 
-  static bool _isWarningOrError(LogMessage log) => log.logLevel.compareTo(LoggerLevel.warning) >= 0;
+  static bool _isWarningOrError(LogMessage log) =>
+      log.logLevel.compareTo(LoggerLevel.warning) >= 0;
 
   @mustCallSuper
   @mustBeOverridden

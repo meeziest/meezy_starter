@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../helpers/streams_helper/stream_subs_cancel.dart';
-import '../bloc/base_bloc.dart';
+import 'package:meezy_starter/core/bloc_base/bloc/base_bloc.dart';
+import 'package:meezy_starter/core/helpers/streams_helper/stream_subs_cancel.dart';
 
 typedef BaseBlocWidgetBuilder<B, S> = Widget Function(
   BuildContext context,
@@ -146,14 +145,19 @@ class BaseBlocWrapper<B extends BaseBloc<E, S>, E, S> extends StatefulWidget {
   final BaseBloWidgetType type;
 
   @override
-  State<BaseBlocWrapper<B, E, S>> createState() => _BaseBlocWrapperState<B, E, S>();
+  State<BaseBlocWrapper<B, E, S>> createState() =>
+      _BaseBlocWrapperState<B, E, S>();
 }
 
-class _BaseBlocWrapperState<B extends BaseBloc<E, S>, E, S> extends State<BaseBlocWrapper<B, E, S>>
-    with CancelableStreamSubscriptions {
+class _BaseBlocWrapperState<B extends BaseBloc<E, S>, E, S>
+    extends State<BaseBlocWrapper<B, E, S>> with CancelableStreamSubscriptions {
   @override
   void didChangeDependencies() {
-    context.read<B>().contextHandler.listen((handler) => handler(context)).cancelableBy(this);
+    context
+        .read<B>()
+        .contextHandler
+        .listen((handler) => handler(context))
+        .cancelableBy(this);
     super.didChangeDependencies();
   }
 
