@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 
 typedef MediatorBuilder = FlowMediator Function(BuildContext context);
 
+mixin FlowWrapper on StatefulWidget {
+  Widget wrapped(BuildContext context);
+}
+
 mixin FlowMediator<T extends StatefulWidget> on State<T> {
   final List<StreamSubscription<dynamic>> _subs = [];
 
