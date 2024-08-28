@@ -42,8 +42,8 @@ class _SlideBounceAnimationState extends State<SlideBounceAnimation> with Ticker
   }
 
   void _dealContentAnimate() {
-    AlignmentGeometry? alignment = widget.alignment;
-    var offset = const Offset(0, 0);
+    final AlignmentGeometry alignment = widget.alignment;
+    var offset = Offset.zero;
 
     switch (alignment) {
       case Alignment.bottomCenter:
