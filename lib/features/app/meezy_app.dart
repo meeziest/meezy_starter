@@ -1,8 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:meezy_starter/features/app/view/router/app_router.dart';
+import 'package:meezy_starter/features/app/router/app_router.dart';
 
-import '../../core/auth/interceptors/auth_interceptor.dart';
 import '../../core/config/core_dependencies.dart';
 import 'app_scope.dart';
 
@@ -16,19 +14,10 @@ class MeezyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AppScope(
         coreDependencies: result.coreDependencies,
-        builder: (context, appState, authState) {
+        builder: (context, appState) {
           return MaterialApp.router(
             theme: appState.appTheme?.computeTheme(context),
-            routerDelegate: AutoRouterDelegate.declarative(
-              _appRouter,
-              routes: (_) => [
-                switch (authState.status) {
-                  AuthenticationStatus.initial => const SplashRoute(),
-                  AuthenticationStatus.unauthenticated => const AuthRoute(),
-                  AuthenticationStatus.authenticated => const MainTabRoute(),
-                } as PageRouteInfo,
-              ],
-            ),
+            routerConfig: _appRouter.config(),
           );
         },
       );
