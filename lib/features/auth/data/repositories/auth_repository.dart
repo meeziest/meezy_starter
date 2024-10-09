@@ -3,13 +3,13 @@ import '../../../../core/auth/token_local.dart';
 import '../data_sources/auth_data_source.dart';
 
 /// AuthStatusSource is used to get the status of the authentication
-abstract interface class AuthStatusSource {
-  /// Stream of [AuthenticationStatus]
-  Stream<AuthenticationStatus> get authStatus;
+abstract interface class SessionStatusSource {
+  /// Stream of [SessionStatus]
+  Stream<SessionStatus> get sessionStatus;
 }
 
 /// AuthRepository
-abstract interface class AuthRepository<T> implements AuthStatusSource {
+abstract interface class SessionRepository<T> implements SessionStatusSource {
   /// Sign in with email and password
   Future<T> signIn(String email, String password);
 
@@ -21,7 +21,7 @@ abstract interface class AuthRepository<T> implements AuthStatusSource {
 }
 
 /// AuthRepositoryImpl
-final class AuthRepositoryImpl<T> implements AuthRepository<T> {
+final class AuthRepositoryImpl<T> implements SessionRepository<T> {
   final AuthDataSource<T> _dataSource;
   final TokenStorage<T> _storage;
 
@@ -51,9 +51,9 @@ final class AuthRepositoryImpl<T> implements AuthRepository<T> {
   }
 
   @override
-  Stream<AuthenticationStatus> get authStatus => _storage.stream.map(
+  Stream<SessionStatus> get sessionStatus => _storage.stream.map(
         (token) => token != null //
-            ? AuthenticationStatus.authenticated
-            : AuthenticationStatus.unauthenticated,
+            ? SessionStatus.authenticated
+            : SessionStatus.unauthenticated,
       );
 }

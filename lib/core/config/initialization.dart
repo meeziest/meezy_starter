@@ -67,9 +67,8 @@ final class InitializationProcessor {
     final localeRepository = LocaleRepositoryImpl(LocaleDataSourceSP(prefs));
     final themeRepository = ThemeRepositoryImpl(ThemeDataSourceSP(prefs));
 
-    final localeFuture = localeRepository.loadLocale();
     final theme = themeRepository.loadTheme() ?? AppTheme(mode: ThemeMode.dark);
-    final locale = localeFuture;
+    final locale = localeRepository.loadLocale();
 
     final initialState = AppState.idle(appTheme: theme, locale: locale);
 

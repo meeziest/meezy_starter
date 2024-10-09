@@ -17,13 +17,10 @@ final class ThemeDataSourceSP extends PreferencesDao implements ThemeDataSource 
   /// {@macro theme_datasource}
   ThemeDataSourceSP(super._sharedPreferences);
 
-  PreferencesEntry<int> get _seedColor => intEntry('theme.seed_color');
-
   PreferencesEntry<String> get _themeMode => stringEntry('theme.mode');
 
   @override
   Future<void> setTheme(AppTheme theme) async {
-    await _seedColor.setIfNullRemove(theme.seed?.value);
     await _themeMode.setIfNullRemove(_themeModeCodec.encode(theme.mode));
 
     return;
@@ -31,14 +28,11 @@ final class ThemeDataSourceSP extends PreferencesDao implements ThemeDataSource 
 
   @override
   AppTheme? loadThemeFromCache() {
-    final seedColor = _seedColor.read();
-
     final type = _themeMode.read();
 
     if (type == null) return null;
 
     return AppTheme(
-      seed: seedColor != null ? Color(seedColor) : null,
       mode: _themeModeCodec.decode(type),
     );
   }

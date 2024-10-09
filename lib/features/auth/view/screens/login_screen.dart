@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-@RoutePage(name: 'AuthRoute')
-class AuthScreen extends StatefulWidget {
+@RoutePage(name: 'LoginRoute')
+class LoginScreen extends StatefulWidget {
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) => const Scaffold(body: SizedBox());
 }

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/config/core_dependencies.dart';
-import '../auth/bloc/auth_bloc.dart';
+import '../auth/bloc/session_bloc.dart';
 import '../auth/data/data_sources/auth_data_source.dart';
 import '../auth/data/repositories/auth_repository.dart';
 import 'bloc/app_bloc.dart';
@@ -41,7 +41,7 @@ class AppScope extends StatelessWidget {
         ),
 
         /// repositories
-        Provider<AuthRepository<Object>>(
+        Provider<SessionRepository<Object>>(
           create: (context) => AuthRepositoryImpl(
             dataSource: context.read(),
             storage: coreDependencies.tokenStorage,
@@ -53,7 +53,7 @@ class AppScope extends StatelessWidget {
           create: coreDependencies.appBlocCreator,
         ),
         BlocProvider(
-          create: (context) => AuthBloc(authRepository: context.read()),
+          create: (context) => SessionBloc(authRepository: context.read()),
         ),
       ],
       child: BlocBuilder<AppBloc, AppState>(
