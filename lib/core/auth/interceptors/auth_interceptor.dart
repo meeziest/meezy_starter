@@ -9,14 +9,11 @@ import '../exceptions/auth_exceptions.dart';
 import '../token_local.dart';
 import '../token_remote.dart';
 
-/// [AuthenticationStatus] is used to determine the authentication state
+/// [SessionStatus] is used to determine the authentication state
 /// of the user.
 ///
 /// This should be consumed by the business logic.
-enum AuthenticationStatus {
-  /// The initial state of the authentication status
-  initial,
-
+enum SessionStatus {
   /// The user is authenticated
   authenticated,
 
@@ -31,7 +28,7 @@ abstract interface class AuthStatusDataSource {
   /// This stream should be listened from repository and bloc,
   /// if it emits null, it means the token pair is revoked
   /// and the user should be logged out.
-  Stream<AuthenticationStatus> getAuthenticationStatusStream();
+  Stream<SessionStatus> getAuthenticationStatusStream();
 }
 
 /// Interceptor for Auth

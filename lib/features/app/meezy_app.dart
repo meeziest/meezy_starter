@@ -16,7 +16,7 @@ class MeezyApp extends StatelessWidget {
         coreDependencies: result.coreDependencies,
         builder: (context, appState) {
           return MaterialApp.router(
-            theme: appState.appTheme?.computeTheme(context),
+            theme: appState.appTheme?.getTheme(context),
             routerConfig: _appRouter.config(),
           );
         },

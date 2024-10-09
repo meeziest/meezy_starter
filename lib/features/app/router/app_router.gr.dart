@@ -9,57 +9,42 @@
 
 part of 'app_router.dart';
 
-abstract class _$AppRouter extends RootStackRouter {
-  // ignore: unused_element
-  _$AppRouter({super.navigatorKey});
-
-  @override
-  final Map<String, PageFactory> pagesMap = {
-    AuthRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: AuthScreen(),
-      );
-    },
-    MainTabRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: MainTab(),
-      );
-    },
-    ProfileTabRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: ProfileTab(),
-      );
-    },
-    SplashRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SplashScreen(),
-      );
-    },
-    UserScopeRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: WrappedRoute(child: UserScope()),
-      );
-    },
-  };
-}
-
 /// generated route for
-/// [AuthScreen]
-class AuthRoute extends PageRouteInfo<void> {
-  const AuthRoute({List<PageRouteInfo>? children})
+/// [AuthFlow]
+class AuthFlowRoute extends PageRouteInfo<void> {
+  const AuthFlowRoute({List<PageRouteInfo>? children})
       : super(
-          AuthRoute.name,
+          AuthFlowRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'AuthRoute';
+  static const String name = 'AuthFlowRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AuthFlow();
+    },
+  );
+}
+
+/// generated route for
+/// [LoginScreen]
+class LoginRoute extends PageRouteInfo<void> {
+  const LoginRoute({List<PageRouteInfo>? children})
+      : super(
+          LoginRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LoginRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return LoginScreen();
+    },
+  );
 }
 
 /// generated route for
@@ -73,7 +58,12 @@ class MainTabRoute extends PageRouteInfo<void> {
 
   static const String name = 'MainTabRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return MainTab();
+    },
+  );
 }
 
 /// generated route for
@@ -87,7 +77,50 @@ class ProfileTabRoute extends PageRouteInfo<void> {
 
   static const String name = 'ProfileTabRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return ProfileTab();
+    },
+  );
+}
+
+/// generated route for
+/// [RegisterScreen]
+class RegisterRoute extends PageRouteInfo<void> {
+  const RegisterRoute({List<PageRouteInfo>? children})
+      : super(
+          RegisterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return RegisterScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [SessionScope]
+class SessionScopeRoute extends PageRouteInfo<void> {
+  const SessionScopeRoute({List<PageRouteInfo>? children})
+      : super(
+          SessionScopeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SessionScopeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const SessionScope());
+    },
+  );
 }
 
 /// generated route for
@@ -101,7 +134,12 @@ class SplashRoute extends PageRouteInfo<void> {
 
   static const String name = 'SplashRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return SplashScreen();
+    },
+  );
 }
 
 /// generated route for
@@ -115,5 +153,10 @@ class UserScopeRoute extends PageRouteInfo<void> {
 
   static const String name = 'UserScopeRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: UserScope());
+    },
+  );
 }
