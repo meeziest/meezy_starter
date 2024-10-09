@@ -69,3 +69,7 @@ To get started with Meezy_starter, follow these steps:
    ```bash
    git clone https://github.com/meeziest/meezy_starter.git
 
+2. **Run the script:** Use the following command to rename your project. You can specify the desired project name, organization, and description using the available flags.
+
+   ```bash
+   dart run tool/dart/rename_project.dart --name="your_project_name" --organization="your_organization" --description="your_project_description"
