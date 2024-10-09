@@ -61,10 +61,10 @@ packages:
     dependency: transitive
     description:
       name: args
-      sha256: eef6c46b622e0494a36c5a12d10d77fb4e855501a91c1b9ef9339326e58f0596
+      sha256: "7cf60b9f0cc88203c5a190b4cd62a99feea42759a7fa695010eb5de1c0b2252a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.5.0"
   async:
     dependency: "direct main"
     description:
@@ -77,18 +77,18 @@ packages:
     dependency: "direct main"
     description:
       name: auto_route
-      sha256: eb33554581a0a4aa7e6da0f13a44291a55bf71359012f1d9feb41634ff908ff8
+      sha256: bb673104dbdc22667d01ec668df3d2a358b6e3da481428eeb1151933cfc1a7d6
       url: "https://pub.dev"
     source: hosted
-    version: "7.9.2"
+    version: "9.2.0"
   auto_route_generator:
     dependency: "direct dev"
     description:
       name: auto_route_generator
-      sha256: "11067a3bcd643812518fe26c0c9ec073990286cabfd9d74b6da9ef9b913c4d22"
+      sha256: c9086eb07271e51b44071ad5cff34e889f3156710b964a308c2ab590769e79e6
       url: "https://pub.dev"
     source: hosted
-    version: "7.3.2"
+    version: "9.0.0"
   bloc:
     dependency: transitive
     description:
@@ -149,10 +149,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "3ac61a79bfb6f6cc11f693591063a7f19a7af628dc52f141743edac5c16e8c22"
+      sha256: "644dc98a0f179b872f612d3eb627924b578897c629788e858157fa5e704ca0c7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.9"
+    version: "2.4.11"
   build_runner_core:
     dependency: transitive
     description:

@@ -8,7 +8,7 @@ import '../auth/data/data_sources/auth_data_source.dart';
 import '../auth/data/repositories/auth_repository.dart';
 import 'bloc/app_bloc.dart';
 
-typedef AppBuilder = Widget Function(BuildContext context, AppState, AuthState);
+typedef AppBuilder = Widget Function(BuildContext context, AppState);
 
 class AppScope extends StatelessWidget {
   const AppScope({
@@ -57,9 +57,7 @@ class AppScope extends StatelessWidget {
         ),
       ],
       child: BlocBuilder<AppBloc, AppState>(
-        builder: (context, appState) => BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, authState) => builder(context, appState, authState),
-        ),
+        builder: (context, appState) => builder(context, appState),
       ),
     );
   }
