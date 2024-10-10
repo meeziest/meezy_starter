@@ -49,7 +49,6 @@ test
 - **app**: Main application logic.
 - **auth**: Authentication-related features.
 - **main**: Entry point and main screen logic.
-- **profile**: User profile-related features.
 - **app_runner.dart**: Initial setup and application runner.
 
 ### Gen
