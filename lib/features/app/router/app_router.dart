@@ -48,11 +48,6 @@ class AppRouter extends RootStackRouter {
                   page: MainTabRoute.page,
                   type: const RouteType.cupertino(),
                 ),
-                AutoRoute(
-                  path: 'profile',
-                  page: ProfileTabRoute.page,
-                  type: const RouteType.cupertino(),
-                ),
               ],
             )
           ],

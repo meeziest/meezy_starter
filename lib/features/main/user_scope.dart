@@ -25,9 +25,6 @@ class UserScope extends StatelessWidget implements AutoRouteWrapper {
       routes: const [
         /// main tab
         MainTabRoute(),
-
-        /// profile tab
-        ProfileTabRoute(),
       ],
     );
   }

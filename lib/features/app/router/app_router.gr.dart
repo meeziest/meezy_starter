@@ -67,25 +67,6 @@ class MainTabRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ProfileTab]
-class ProfileTabRoute extends PageRouteInfo<void> {
-  const ProfileTabRoute({List<PageRouteInfo>? children})
-      : super(
-          ProfileTabRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ProfileTabRoute';
-
-  static PageInfo page = PageInfo(
-    name,
-    builder: (data) {
-      return ProfileTab();
-    },
-  );
-}
-
-/// generated route for
 /// [RegisterScreen]
 class RegisterRoute extends PageRouteInfo<void> {
   const RegisterRoute({List<PageRouteInfo>? children})
