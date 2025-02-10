@@ -12,5 +12,5 @@ dependencies:
     sdk: flutter
 
 workspace:
-  - core/meezy_core
-  - core/meezy_ui
+  - packages/meezy_core
+  - packages/meezy_ui
