@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:meezy_core/src/ui_kit/src/widgets/shimmer_syncer.dart';
+
+import '../../meezy_ui.dart';
 
 enum SgShimmerDirection { ltr, rtl, ttb, btt }
 

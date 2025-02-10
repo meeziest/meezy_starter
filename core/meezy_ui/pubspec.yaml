@@ -1,0 +1,27 @@
+name: meezy_ui
+description: "Meezy UI is a customizable Flutter UI package designed to provide reusable components, themes, and styling utilities for the Meezy Starter framework. It includes pre-built widgets, responsive layouts, and design system elements to streamline the development of visually consistent and high-performance Flutter applications. With support for dark mode, adaptive themes, and animation utilities, Meezy UI helps developers build beautiful and scalable user interfaces efficiently."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.5.4
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  lottie: ^3.1.0
+  hovering: ^1.0.4
+  google_fonts: ^6.2.1
+  cached_network_image: ^3.3.1
+
+  meezy_core:
+    path: ../meezy_core
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
