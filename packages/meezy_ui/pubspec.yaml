@@ -7,6 +7,9 @@ environment:
   sdk: ^3.5.4
   flutter: ">=1.17.0"
 
+# Use shared dependency resolution
+resolution: workspace
+
 dependencies:
   flutter:
     sdk: flutter
