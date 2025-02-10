@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:meezy_core/src/helpers/context_helpers/inherited_helper.dart';
+import 'package:meezy_core/meezy_core.dart';
 
 class ShimmerSyncer extends InheritedWidget {
   final AnimationController shimmerSyncController;
