@@ -13,3 +13,4 @@ dependencies:
 
 workspace:
   - core/meezy_core
+  - core/meezy_ui
