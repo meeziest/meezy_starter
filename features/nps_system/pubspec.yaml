@@ -1,0 +1,20 @@
+name: nps_system
+description: "NPS stands for Net Promoter Score, which is a common metric used in customer experience programs. An NPS score measures customer loyalty by looking at their likelihood of recommending a given business."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.5.4
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+

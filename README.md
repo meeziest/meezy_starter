@@ -4,31 +4,6 @@ Meezy_starter is a Flutter starter project designed to provide a robust foundati
 and maintainable mobile applications. It is inspired by Sizzle_starter and incorporates a scope-based approach, 
 leveraging the power of Bloc and Auto Route for state management and routing.
 
-## Project Structure
-
-The project is organized into the following main directories:
-
-```
-lib
-├── core
-│ ├── auth
-│ ├── bloc_base
-│ ├── client
-│ ├── config
-│ ├── helpers
-│ ├── logger
-│ ├── proxy
-│ ├── tracker
-│ └── ui_kit
-├── features
-│ ├── app
-│ ├── auth
-│ ├── main
-│ ├── profile
-│ └── app_runner.dart
-├── gen
-└── main.dart
-test
 ```
 
 
