@@ -7,6 +7,7 @@ export 'button/button.dart';
 export 'disappearing_bottom_navigation_bar.dart';
 export 'disappearing_navigation_rail.dart';
 export 'elastic_switcher/elastic_blob_widget.dart';
+export 'input_fields/big_input.dart';
 export 'list_tile_options_widget.dart';
 export 'loaders/spinning_lines.dart';
 export 'meteor_shower.dart';

@@ -23,3 +23,5 @@ workspace:
   - packages/meezy_core
   - packages/meezy_ui
   - common/chatbot_core
+  - common/nps_system
+  - common/onboarding
