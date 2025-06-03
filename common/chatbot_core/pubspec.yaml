@@ -1,0 +1,39 @@
+name: chatbot_core
+description: "A new Flutter package project."
+version: 0.0.1
+# Use shared dependency resolution
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  meezy_core:
+  meezy_ui:
+  shared_preferences:
+  dio:
+  flutter_bloc:
+  auto_route:
+  flutter_smart_dialog:
+  provider:
+  camera: 0.11.1
+  file_picker: 9.2.0
+  flutter_keyboard_size: 1.0.1
+  freezed_annotation: 2.4.4
+  app_settings: 5.0.0
+  flutter_svg:
+  json_annotation: 4.9.0
+  intl: any
+  equatable: ^2.0.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.15
+  json_serializable: ^6.9.0
+  freezed: 2.5.8

@@ -7,6 +7,8 @@ class AppColorScheme extends ColorScheme {
   final Color primaryBackground;
   final Color? secondaryBackground;
   final Color? tertiaryBackground;
+  final Color success;
+  final Color onSuccess;
 
   static const Color gradientStart = Color(0xFFEEAB00);
   static const Color gradientEnd = Color(0xFF5E77FF);
@@ -30,6 +32,8 @@ class AppColorScheme extends ColorScheme {
     required super.brightness,
     required super.shadow,
     required super.outline,
+    required this.success,
+    required this.onSuccess,
     required this.primaryBackground,
     this.secondaryBackground,
     this.tertiaryBackground,

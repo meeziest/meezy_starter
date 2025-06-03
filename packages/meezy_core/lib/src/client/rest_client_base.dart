@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
 
+import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import 'exceptions/network_exceptions.dart';
@@ -44,6 +45,8 @@ abstract class RestClient {
     Map<String, Object?>? headers,
     Map<String, Object?>? queryParams,
   });
+
+  Dio get dio;
 }
 
 @immutable
@@ -138,7 +141,7 @@ abstract base class RestClientBase implements RestClient {
         return data;
       }
 
-      return null;
+      return result;
     } on RestClientException {
       rethrow;
     } on Object catch (e, stackTrace) {

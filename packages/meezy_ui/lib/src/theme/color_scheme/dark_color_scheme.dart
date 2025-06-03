@@ -20,5 +20,8 @@ final class AppColorSchemeDark extends AppColorScheme {
           shadow: const Color(0xFFD0EBFF),
           outline: const Color(0xFF000000),
           outlineVariant: const Color(0xFF74C0FC),
+          // Success Colors
+          success: const Color(0xFF4CAF50),
+          onSuccess: Colors.white,
         );
 }

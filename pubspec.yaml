@@ -4,13 +4,22 @@ publish_to: "none"
 version: 0.0.1+1
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
+  sdk: ^3.6.0
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
+dependency_overrides:
+  build_runner: 2.4.15
+  flutter_lints: 4.0.0
+  json_serializable: ^6.9.0
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  freezed: ^2.5.8
+
 workspace:
   - packages/meezy_core
   - packages/meezy_ui
+  - common/chatbot_core

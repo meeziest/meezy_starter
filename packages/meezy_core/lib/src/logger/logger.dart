@@ -157,7 +157,7 @@ abstract base class MLogger {
 
 /// Default logger using logging package
 final class LoggerLogging extends MLogger {
-  final _logger = logging.Logger('SizzleLogger');
+  final _logger = logging.Logger('MLogger');
 
   @override
   void debug(Object message) => _logger.fine(message);
@@ -182,19 +182,19 @@ final class LoggerLogging extends MLogger {
 
   @override
   L runLogging<L>(L Function() fn, [LogOptions options = const LogOptions()]) {
-    if (kReleaseMode && !options.logInRelease) {
-      return fn();
-    }
+    if (kReleaseMode && !options.logInRelease) return fn();
+
     logging.hierarchicalLoggingEnabled = true;
 
-    _logger.onRecord.where((event) => event.loggerName == 'SizzleLogger').listen((event) {
+    _logger.onRecord.where((event) => event.loggerName == 'MLogger').listen((event) {
       final logMessage = event.toLogMessage();
-      final message =
-          options.formatter?.call(logMessage, options) ?? _formatLoggerMessage(log: logMessage, options: options);
+      final message = options.formatter?.call(logMessage, options) ??
+          _formatLoggerMessage(
+            log: logMessage,
+            options: options,
+          );
 
-      if (logMessage.logLevel.compareTo(options.level) < 0) {
-        return;
-      }
+      if (logMessage.logLevel.compareTo(options.level) < 0) return;
 
       Zone.current.print(message);
     });

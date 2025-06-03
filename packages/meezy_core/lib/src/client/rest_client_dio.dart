@@ -9,6 +9,9 @@ final class RestClientDio extends RestClientBase {
 
   final Dio _dio;
 
+  @override
+  Dio get dio => _dio;
+
   /// Send [Dio] request
   @protected
   @visibleForTesting
@@ -38,15 +41,7 @@ final class RestClientDio extends RestClientBase {
         response.data,
         statusCode: response.statusCode,
       );
-
-      final accessToken = response.headers.value('jwt-access-token');
-      final refreshToken = response.headers.value('jwt-refresh-token');
-
-      return resp ??
-          {
-            'jwt-access-token': accessToken,
-            'jwt-refresh-token': refreshToken,
-          };
+      return resp;
     } on RestClientException {
       rethrow;
     } on DioException catch (e) {

@@ -6,7 +6,7 @@ import 'color_scheme/app_color_scheme.dart';
 abstract final class AppThemeData {
   const AppThemeData._();
 
-  static ThemeData tabysLightTheme(AppColorScheme colorScheme) {
+  static ThemeData lightTheme(AppColorScheme colorScheme) {
     final textTheme = AppTextTheme(colorScheme);
     return ThemeData(
       useMaterial3: true,
@@ -32,7 +32,7 @@ abstract final class AppThemeData {
     );
   }
 
-  static ThemeData tabysDarkTheme(AppColorScheme colorScheme) {
+  static ThemeData darkTheme(AppColorScheme colorScheme) {
     final textTheme = AppTextTheme(colorScheme);
     return ThemeData(
       useMaterial3: true,
@@ -52,10 +52,41 @@ abstract final class AppThemeData {
       filledButtonTheme: _filledButtonThemeData(colorScheme),
       bottomNavigationBarTheme: _bottomNavigationBarTheme(colorScheme),
       elevatedButtonTheme: _elevatedButtonTheme(colorScheme),
+      checkboxTheme: checkboxThemeData(colorScheme),
       extensions: [
         AppColorSchemeExtension(colorScheme),
         AppTextStylesExtension(textTheme),
       ],
+    );
+  }
+
+  static CheckboxThemeData checkboxThemeData(AppColorScheme colorScheme) {
+    return CheckboxThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0), // Adjust this value for desired roundness.
+      ),
+      side: WidgetStateBorderSide.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
+          return BorderSide(
+            color: colorScheme.onPrimary,
+            width: 1.0,
+          );
+        } else {
+          return BorderSide(
+            color: colorScheme.onPrimary.withOpacity(0.5),
+            width: 0.5,
+          );
+        }
+      }),
+      fillColor: WidgetStateProperty.resolveWith((states) {
+        return colorScheme.surface;
+      }),
+      checkColor: WidgetStateProperty.resolveWith((states) {
+        return colorScheme.onPrimary;
+      }),
+      overlayColor: WidgetStateProperty.resolveWith((states) {
+        return colorScheme.onPrimary;
+      }),
     );
   }
 
@@ -121,18 +152,17 @@ abstract final class AppThemeData {
   static OutlinedButtonThemeData _outlinedButtonTheme(AppColorScheme colorScheme) => OutlinedButtonThemeData(
         style: ButtonStyle(
           textStyle: WidgetStatePropertyAll(
-            AppTextTheme(colorScheme).bodyMedium?.copyWith(color: colorScheme.secondary),
+            AppTextTheme(colorScheme).bodyLarge?.copyWith(fontWeight: FontWeight.w900),
           ),
-          backgroundColor: WidgetStatePropertyAll(colorScheme.primaryContainer),
-          foregroundColor: WidgetStatePropertyAll(colorScheme.onPrimaryContainer),
+          foregroundColor: WidgetStatePropertyAll(colorScheme.onPrimary),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-              side: BorderSide(color: colorScheme.outline),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
+          splashFactory: InkSplash.splashFactory,
           padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(vertical: 16),
+            EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           ),
         ),
       );
@@ -210,26 +240,34 @@ abstract final class AppThemeData {
         style: ButtonStyle(
           foregroundColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.disabled)) {
-              return colorScheme.onSecondary;
+              return colorScheme.onSurfaceVariant;
             } else {
               return colorScheme.onPrimary;
             }
           }),
           backgroundColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.disabled)) {
-              return colorScheme.secondary;
+              return colorScheme.surface;
             } else {
-              return colorScheme.primary;
+              return colorScheme.surface;
             }
           }),
-          textStyle: WidgetStateProperty.all(AppTextTheme(colorScheme).bodyLarge),
-          fixedSize: WidgetStateProperty.all(const Size(double.infinity, 56)),
-          shape: WidgetStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              side: BorderSide(color: colorScheme.shadow),
-            ),
+          textStyle: WidgetStateProperty.all(
+            AppTextTheme(colorScheme).bodyLarge?.copyWith(fontWeight: FontWeight.w900),
           ),
+          fixedSize: WidgetStateProperty.all(const Size(double.infinity, 56)),
+          shape: WidgetStateProperty.resolveWith((states) {
+            // Set a default border color.
+            Color borderColor = colorScheme.shadow;
+            // Change the border color when the button is selected.
+            if (!states.contains(WidgetState.disabled)) {
+              borderColor = colorScheme.onPrimary;
+            }
+            return RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(16)),
+              side: BorderSide(color: borderColor, width: 1.5),
+            );
+          }),
         ),
       );
 

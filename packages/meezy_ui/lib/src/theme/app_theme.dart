@@ -19,13 +19,18 @@ class AppTheme {
   final ThemeData lightTheme;
 
   AppTheme({
-    required this.mode,
-  })  : darkTheme = AppThemeData.tabysDarkTheme(
-          const AppColorSchemeDark(),
-        ),
-        lightTheme = AppThemeData.tabysLightTheme(
-          const AppColorSchemeLight(),
-        );
+    ThemeMode? mode = ThemeMode.system,
+    ThemeData? darkTheme,
+    ThemeData? lightTheme,
+  })  : darkTheme = darkTheme ??
+            AppThemeData.darkTheme(
+              const AppColorSchemeDark(),
+            ),
+        lightTheme = lightTheme ??
+            AppThemeData.lightTheme(
+              const AppColorSchemeLight(),
+            ),
+        mode = mode ?? ThemeMode.system;
 
   static final light = AppTheme(mode: ThemeMode.light);
   static final dark = AppTheme(mode: ThemeMode.dark);

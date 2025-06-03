@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../helpers/streams_helper/stream_subs_cancel.dart';
-import '../bloc/base_bloc.dart';
+import '../bloc/meezy_bloc.dart';
+import 'context_binder.dart';
 
 typedef BaseBlocWidgetBuilder<B, S> = Widget Function(
   BuildContext context,
   S state,
   B bloc,
 );
+
 typedef BaseBlocWidgetListener<B, S> = dynamic Function(
   BuildContext context,
   S state,
@@ -21,8 +23,8 @@ enum BaseBloWidgetType {
   listen,
 }
 
-class BaseBlocWidget<B extends BaseBloc<E, S>, E, S> extends StatelessWidget {
-  const BaseBlocWidget({
+class BlocScope<B extends MeezyBloc<E, S>, E, S> extends StatelessWidget {
+  const BlocScope({
     required B Function(BuildContext context) create,
     super.key,
     BaseBlocWidgetBuilder<B, S>? builder,
@@ -36,7 +38,7 @@ class BaseBlocWidget<B extends BaseBloc<E, S>, E, S> extends StatelessWidget {
         _bloc = null,
         type = BaseBloWidgetType.consume;
 
-  const BaseBlocWidget.value({
+  const BlocScope.value({
     required B bloc,
     super.key,
     BaseBlocWidgetBuilder<B, S>? builder,
@@ -50,7 +52,7 @@ class BaseBlocWidget<B extends BaseBloc<E, S>, E, S> extends StatelessWidget {
         _create = null,
         type = BaseBloWidgetType.consume;
 
-  const BaseBlocWidget.listen({
+  const BlocScope.listen({
     required B Function(BuildContext context) create,
     required this.child,
     super.key,
@@ -87,14 +89,14 @@ class BaseBlocWidget<B extends BaseBloc<E, S>, E, S> extends StatelessWidget {
   }
 
   Widget wrappedChild(BuildContext context) => switch (type) {
-        BaseBloWidgetType.consume => BaseBlocWrapper<B, E, S>(
+        BaseBloWidgetType.consume => _BlocWrapper<B, E, S>(
             bloc: _bloc,
             buildWhen: buildWhen,
             listenWhen: listenWhen,
             listener: listener,
             builder: _builder,
           ),
-        BaseBloWidgetType.listen => BaseBlocWrapper<B, E, S>.listen(
+        BaseBloWidgetType.listen => _BlocWrapper<B, E, S>.listen(
             listener: listener,
             listenWhen: listenWhen,
             bloc: _bloc,
@@ -116,8 +118,8 @@ class BaseBlocWidget<B extends BaseBloc<E, S>, E, S> extends StatelessWidget {
   }
 }
 
-class BaseBlocWrapper<B extends BaseBloc<E, S>, E, S> extends StatefulWidget {
-  const BaseBlocWrapper({
+class _BlocWrapper<B extends MeezyBloc<E, S>, E, S> extends StatefulWidget {
+  const _BlocWrapper({
     required this.builder,
     super.key,
     this.bloc,
@@ -127,7 +129,7 @@ class BaseBlocWrapper<B extends BaseBloc<E, S>, E, S> extends StatefulWidget {
   })  : child = null,
         type = BaseBloWidgetType.consume;
 
-  const BaseBlocWrapper.listen({
+  const _BlocWrapper.listen({
     required this.child,
     super.key,
     this.bloc,
@@ -146,47 +148,37 @@ class BaseBlocWrapper<B extends BaseBloc<E, S>, E, S> extends StatefulWidget {
   final BaseBloWidgetType type;
 
   @override
-  State<BaseBlocWrapper<B, E, S>> createState() => _BaseBlocWrapperState<B, E, S>();
+  State<_BlocWrapper<B, E, S>> createState() => _BlocWrapperState<B, E, S>();
 }
 
-class _BaseBlocWrapperState<B extends BaseBloc<E, S>, E, S> extends State<BaseBlocWrapper<B, E, S>>
+class _BlocWrapperState<B extends MeezyBloc<E, S>, E, S> extends State<_BlocWrapper<B, E, S>>
     with CancelableStreamSubscriptions {
   @override
-  void didChangeDependencies() {
-    context.read<B>().contextHandler.listen((handler) => handler(context)).cancelableBy(this);
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) => switch (widget.type) {
-        BaseBloWidgetType.consume => BlocConsumer<B, S>(
-            buildWhen: widget.buildWhen,
-            listenWhen: widget.listenWhen,
-            listener: (context, state) => widget.listener?.call(
-              context,
-              state,
-              context.read<B>(),
+  Widget build(BuildContext context) => ContextBinder<B>(
+        child: switch (widget.type) {
+          BaseBloWidgetType.consume => BlocConsumer<B, S>(
+              buildWhen: widget.buildWhen,
+              listenWhen: widget.listenWhen,
+              listener: (context, state) => widget.listener?.call(
+                context,
+                state,
+                context.read<B>(),
+              ),
+              builder: (context, state) => widget.builder!(
+                context,
+                state,
+                context.read<B>(),
+              ),
             ),
-            builder: (context, state) => widget.builder!(
-              context,
-              state,
-              context.read<B>(),
+          BaseBloWidgetType.listen => BlocListener<B, S>(
+              listener: (context, state) => widget.listener?.call(
+                context,
+                state,
+                context.read<B>(),
+              ),
+              listenWhen: widget.listenWhen,
+              child: widget.child,
             ),
-          ),
-        BaseBloWidgetType.listen => BlocListener<B, S>(
-            listener: (context, state) => widget.listener?.call(
-              context,
-              state,
-              context.read<B>(),
-            ),
-            listenWhen: widget.listenWhen,
-            child: widget.child,
-          ),
-      };
-
-  @override
-  void dispose() {
-    cancelSubscriptions();
-    super.dispose();
-  }
+        },
+      );
 }

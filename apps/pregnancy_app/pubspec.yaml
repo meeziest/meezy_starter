@@ -1,0 +1,71 @@
+name: pregnancy_app
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+
+# Use shared dependency resolution
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # internal packages
+  meezy_core:
+  meezy_ui:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.15
+  json_serializable: ^6.9.0
+  freezed: 2.5.8
+  auto_route_generator: ^10.0.1
+  flutter_gen_runner: any
+  flutter_cache_manager: ^3.4.1
+  gal: ^2.3.1
+
+flutter_gen:
+  output: lib/src/common/generated/
+  integrations:
+    flutter_svg: true
+    lottie: true
+    rive: true
+  assets:
+    outputs:
+      class_name: AssetsGen
+
+# fvm dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/app_icon/app_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+
+# fvm dart run flutter_native_splash:remove
+# fvm dart run flutter_native_splash:create
+flutter_native_splash:
+  # fvm dart run flutter_native_splash:create
+  # fvm dart run flutter_native_splash:remove
+  #  background_image: "assets/splash_screen/default/hcb_splash_background.png"
+  color: "#070014"
+  image: assets/app_icon/app_icon.png
+  android_screen_orientation: portrait
+  color_dark: "#070014"
+
+  android_12:
+    color: "#070014"
+    image: assets/app_icon/app_icon.png
+    android_screen_orientation: portrait
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/lotties/

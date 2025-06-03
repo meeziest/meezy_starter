@@ -1,4 +1,21 @@
+export 'package:auto_size_text/auto_size_text.dart';
+export 'package:blur/blur.dart';
+export 'package:flutter_animate/flutter_animate.dart';
+export 'package:flutter_blurhash/flutter_blurhash.dart' show BlurHashImage;
+export 'package:flutter_elastic_list_view/flutter_elastic_list_view.dart';
+export 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+export 'package:flutter_svg/flutter_svg.dart';
+export 'package:lottie/lottie.dart';
+export 'package:motion/motion.dart';
+export 'package:rive/rive.dart' show RiveAnimation;
+export 'package:soft_edge_blur/soft_edge_blur.dart';
+export 'package:super_tooltip/super_tooltip.dart';
+export 'package:vibration/vibration.dart';
+
 export 'animations/animations.dart';
+export 'dialogs/dialogs.dart';
+export 'helpers/helpers.dart';
+export 'shaders/shaders_provider.dart';
 export 'styles/styles.dart';
 export 'theme/theme.dart';
 export 'transitions/transitions.dart';
